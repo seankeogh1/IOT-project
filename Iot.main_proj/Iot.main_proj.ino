@@ -6,6 +6,12 @@
 #define COLUMN_NUM  3
 #define SERVO_PIN 26
 #define DHT11_PIN  21 
+#define LDR_PIN  22
+#define Led1 27  
+#define PIR_SENSOR 19
+#define ANALOG_THRESHOLD  500
+
+
 
 char keys[ROW_NUM][COLUMN_NUM] = {
   {'1', '2', '3'},
@@ -22,11 +28,11 @@ Keypad keypad = Keypad( makeKeymap(keys), pin_rows, pin_column, ROW_NUM, COLUMN_
 DHT dht11(DHT11_PIN, DHT11);
 
 const String password = "7890"; 
-const String AlarmCode = "3690";
+const String AlarmDisarm = "3690";
+const String AlarmArm = "4321";
 String input_password;
 Servo servoMotor;
 int sensorValue;
-int Led1 = 32 ;
 
 void setup() {
   Serial.begin(115200);
@@ -34,10 +40,16 @@ void setup() {
   servoMotor.attach(SERVO_PIN);
   pinMode(Led1,OUTPUT);
   dht11.begin(); 
+  analogSetAttenuation(ADC_11db);
+  pinMode(PIR_SENSOR, INPUT);
 }
 
 void loop() {
   char key = keypad.getKey();
+  bool Alarm = false;
+  while (Alarm == true){
+    AlarmOn();
+  }
 
 
   if (key) {
@@ -53,13 +65,19 @@ void loop() {
         delay(5000);
         DoorClose();
 
-      } else if (AlarmCode == input_password){
-        Serial.println("Alarm Password entered, Alarm disarmed");
+
+      } else if (AlarmDisarm == input_password){
+        Serial.println("Alarm Password entered\n Alarm disarmed");
+        AlarmOff();
+        Alarm = false;
+      }else if (AlarmArm == input_password){
+        Serial.println("Alarm Password entered \n Alarm Armed!");
+        AlarmOn();
+        Alarm = true;
       }
       
       else {
         Serial.println("The password is incorrect, Door Locked!");
-        LDR_OFF();
       }
 
       input_password = ""; 

@@ -2,7 +2,6 @@
 
 
 
-
 void GetTemp() {
 
   float humi  = dht11.readHumidity();
