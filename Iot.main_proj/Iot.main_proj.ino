@@ -10,6 +10,7 @@
 #define Led1 27  
 #define PIR_SENSOR 19
 #define ANALOG_THRESHOLD  500
+#define GARAGE_LED 23
 
 
 
@@ -33,6 +34,8 @@ const String AlarmArm = "4321";
 String input_password;
 Servo servoMotor;
 int sensorValue;
+bool Alarm = false;
+bool AlarmState = false;
 
 void setup() {
   Serial.begin(115200);
@@ -46,10 +49,12 @@ void setup() {
 
 void loop() {
   char key = keypad.getKey();
-  bool Alarm = false;
-  while (Alarm == true){
-    AlarmOn();
+
+  if (Alarm && digitalRead(PIR_SENSOR) == HIGH) {
+    AlarmState = true;
+    AlarmTriggered();
   }
+
 
 
   if (key) {
@@ -64,12 +69,13 @@ void loop() {
         GetTemp();
         delay(5000);
         DoorClose();
-
+        GarageLight_on();
 
       } else if (AlarmDisarm == input_password){
         Serial.println("Alarm Password entered\n Alarm disarmed");
         AlarmOff();
         Alarm = false;
+        AlarmState = false;
       }else if (AlarmArm == input_password){
         Serial.println("Alarm Password entered \n Alarm Armed!");
         AlarmOn();
