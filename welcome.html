@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title> Your Smart Garage </title>
+    <style>
+        
+body{
+    background: url(https://static.vecteezy.com/system/resources/previews/002/184/678/large_2x/abstract-blue-technology-background-free-vector.jpg);
+    background-size: cover;
+}
+.header h1{
+    font-size: 50px ;
+    text-align: center;
+    background-color:aliceblue;
+    color: black;
+    border-radius: 10px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+ #doorHead{
+    background-color: antiquewhite;
+    width:150px;
+    border-radius: 10px;
+    text-align: center;
+
+}
+#AlarmOn{
+    border: 4px solid;
+    border-color: black;
+    height: 100px;
+    width: 150px;
+    color:azure;
+    background-color:green;
+    border-radius: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: large;
+    position: relative;
+    top: 150px;
+    left: 20px;
+}
+#AlarmOff{
+    border: 4px solid;
+    border-color: black;
+    height: 100px;
+    width: 150px;
+    color:azure;
+    background-color:brown;
+    border-radius: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: large;
+    position: relative;
+    top: 450px;
+    left: -133px;
+}
+
+
+#OpenDoor{
+    border: 4px solid;
+    border-color: black;
+    height: 100px;
+    width: 150px;
+    color:azure;
+    background-color:blueviolet;
+    border-radius: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: large;
+    position: relative;
+    top: 150px;
+    left: 670px;
+}
+#CloseDoor{
+    border: 4px solid;
+    border-color: black;
+    height: 100px;
+    width: 150px;
+    color:azure;
+    background-color:blueviolet;
+    border-radius: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: large;
+    position: relative;
+    top: 400px;
+    left: 515px;
+}
+
+    </style>
+
+</head> 
+<body>
+    <div class="header">
+    <h1>Your Smart Garage</h1>
+</div>
+<div id="doorHead">
+    <p>
+         Door
+    <p>
+
+</div>
+    <button id="OpenDoor"  onclick="openDoor();">
+        Open Door
+    </button>
+    <button id = "CloseDoor" onclick="closeDoor()"> 
+        Close Door
+    </button>
+    <button id="AlarmOn" onclick="alarmOn()">
+        Enable Alarm
+    </button>
+    <button id="AlarmOff" onclick="alarmOff()">
+        Disable Alarm
+    </button>
+
+    <script>
+function openDoor(){
+    fetch("/DoorOpen")
+    .then(response => response.text())
+    .then(data =>{
+        document.getElementById("status").innerText = data;
+        console.log(data);
+    })
+    .catch(error => console.error("Error:",error));
+}
+    </script>
+
+</body>
+</html>
